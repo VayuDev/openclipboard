@@ -48,15 +48,9 @@ char* getClipboardContent()
         printf("'CLIPBOARD' has no owner\n");
         return NULL;
     }
-
-    /* The selection owner will store the data in a property on this
-     * window: */
     
     XSelectInput(dpy, target_window, SelectionNotify);
-    
 
-    /* Request conversion to UTF-8. Not all owners will be able to
-     * fulfill that request. */
     XConvertSelection(dpy, sel, utf8, target_property, target_window,
                       CurrentTime);
 
@@ -81,6 +75,13 @@ char* getClipboardContent()
     }
 }
 
+void pr(char *s)
+{
+    //EDIT THIS STATEMENT TO FORMAT OUTPUT
+    printf("%s\n", s);
+    fflush(stdout);
+}
+
 int main()
 {
     dpy = XOpenDisplay(NULL);
@@ -96,6 +97,7 @@ int main()
     sel = XInternAtom(dpy, "CLIPBOARD", False);
     utf8 = XInternAtom(dpy, "UTF8_STRING", False);
 
+    //create hidden target window
     target_window = XCreateSimpleWindow(dpy, root, -10, -10, 1, 1, 0, 0, 0);
 
     target_property = XInternAtom(dpy, "MY_PROPERTY", False);
@@ -112,18 +114,20 @@ int main()
         else if(last == NULL)
         {
             last = data;
-            printf("%s", data);
-            fflush(stdout);
+
+            
+            pr(data);
             continue;
         }
 
         if(strcmp(last, data) != 0)
         {
-            printf("%s\n", data);
-            fflush(stdout);
+            pr(data);
         }
         XFree((void*) last);
         last = data;
         usleep(250000);
     }
 }
+
+
