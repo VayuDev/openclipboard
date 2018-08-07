@@ -119,7 +119,7 @@ int main()
 
         if(strcmp(last, data) != 0)
         {
-            printf("%s", data);
+            printf("%s\n", data);
             fflush(stdout);
         }
         XFree((void*) last);
